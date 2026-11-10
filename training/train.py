@@ -1,7 +1,7 @@
 """Train the insurance cost models and export them for the website.
 
 Run:  pip install -r training/requirements.txt && python training/train.py
-Writes public/data/model.json (coefficients + metrics) and public/data/dataset.json
+Writes data/model.json (coefficients + metrics) and data/dataset.json
 (the cleaned records used by the charts and the "people like you" panel).
 """
 import json
@@ -14,7 +14,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import KFold, cross_val_predict, train_test_split
 
 HERE = Path(__file__).resolve().parent
-OUT = HERE.parent / "public" / "data"
+OUT = HERE.parent / "data"
 OUT.mkdir(parents=True, exist_ok=True)
 
 df = pd.read_csv(HERE / "insurance_cleaned.csv")

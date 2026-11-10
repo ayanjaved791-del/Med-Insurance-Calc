@@ -34,15 +34,14 @@ Both models use the test set from an 80/20 split (`random_state=42`) of 1,337 re
 ## Project structure
 
 ```
-public/                 # the website (deployed as-is)
-  index.html
-  styles.css
-  app.js
-  data/model.json       # model coefficients and metrics (generated)
-  data/dataset.json     # cleaned records for the charts (generated)
-  vendor/               # Chart.js
+index.html              # the website (deployed as-is from the repo root)
+styles.css
+app.js
+data/model.json         # model coefficients and metrics (generated)
+data/dataset.json       # cleaned records for the charts (generated)
+vendor/                 # Chart.js
 training/
-  train.py              # retrains the models and regenerates public/data/
+  train.py              # retrains the models and regenerates data/
   insurance_cleaned.csv
   Big_brains_project.ipynb
 vercel.json
@@ -51,13 +50,13 @@ vercel.json
 ## Deploy on Vercel
 
 1. Import this repository in Vercel.
-2. Keep the defaults. `vercel.json` already sets the output directory to `public` with no build step.
+2. Keep the defaults: Framework Preset **Other**, Root Directory `./`, and no build command or output directory.
 3. Deploy.
 
 ## Run locally
 
 ```bash
-cd public && python3 -m http.server 8000
+python3 -m http.server 8000
 ```
 
 Then open http://localhost:8000.
