@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MediCost · Insurance Cost Predictor</title>
+  <meta name="description" content="Estimate your yearly medical insurance cost in seconds, see what drives it, and find out how much you could save. Trained on 1,337 real records." />
+  <meta name="theme-color" content="#0f766e" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    try { const t = localStorage.getItem("mc-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#estimate">Skip to the estimator</a>
+
+  <header class="nav" id="top">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="MediCost home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="currentColor"/><path d="M13 8h6v5h5v6h-5v5h-6v-5H8v-6h5z" fill="#fff"/></svg>
+        </span>
+        MediCost
+      </a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="#estimate">Estimate</a>
+        <a href="#insights">Insights</a>
+        <a href="#model">Model</a>
+        <a href="#batch">Batch</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+          <svg class="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a class="btn btn-primary btn-sm" href="#estimate">Get estimate</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+          <span class="pill"><span class="dot"></span> 91% accurate model · trained on 1,337 real records</span>
+          <h1>Know your medical insurance cost <em>before</em> you shop.</h1>
+          <p class="lead">Answer six quick questions and get an instant yearly estimate. See exactly what drives your price and how much you could save.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary btn-lg" href="#estimate">Calculate my cost
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn-ghost btn-lg" href="#insights">See the data</a>
+          </div>
+          <ul class="hero-trust">
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Free, no sign-up</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Runs in your browser</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Your data never leaves your device</li>
+          </ul>
+        </div>
+
+        <div class="hero-card reveal" aria-hidden="true">
+          <div class="hc-head">
+            <span>Live example</span><span class="hc-chip" id="heroChip">Non-smoker · 35</span>
+          </div>
+          <div class="hc-amount"><span id="heroAmount">$6,120</span><small>/ year</small></div>
+          <div class="hc-sub" id="heroMonthly">≈ $510 per month</div>
+          <div class="hc-bars" id="heroBars"></div>
+          <div class="hc-foot">
+            <div><b id="heroSave">$23,400</b><span>what smoking would add each year</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap stats reveal">
+        <div class="stat"><b data-count="0.909" data-format="pct">0%</b><span>Variance explained (R²)</span></div>
+        <div class="stat"><b data-count="2277" data-format="usd">$0</b><span>Average error</span></div>
+        <div class="stat"><b data-count="45" data-format="pctint">0%</b><span>Less error than the original model</span></div>
+        <div class="stat"><b data-count="1337" data-format="int">0</b><span>Real insurance records</span></div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section how">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">How it works</span>
+          <h2>Three steps to a clear answer</h2>
+        </div>
+        <div class="steps">
+          <article class="step reveal">
+            <span class="step-n">1</span>
+            <h3>Tell us about you</h3>
+            <p>Age, BMI, children, smoking, gender and region. Don't know your BMI? Work it out from your height and weight.</p>
+          </article>
+          <article class="step reveal">
+            <span class="step-n">2</span>
+            <h3>Get an instant estimate</h3>
+            <p>Our model updates as you type. It accounts for how smoking and obesity combine, which a simple model misses.</p>
+          </article>
+          <article class="step reveal">
+            <span class="step-n">3</span>
+            <h3>Understand &amp; save</h3>
+            <p>See what drives your cost, compare scenarios, see how your cost changes with age, and find what would lower it.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTIMATOR -->
+    <section class="section estimator" id="estimate">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Estimator</span>
+          <h2>Your personal cost estimate</h2>
+          <p>Change anything and the estimate updates instantly.</p>
+        </div>
+
+        <div class="est-grid">
+          <form class="card form" id="form" autocomplete="off" onsubmit="return false">
+            <div class="field">
+              <div class="field-top">
+                <label for="age">Age</label>
+                <div class="num-wrap"><input type="number" id="ageNum" min="18" max="64" aria-label="Age in years" /><span>years</span></div>
+              </div>
+              <input type="range" id="age" min="18" max="64" step="1" />
+              <div class="range-scale"><span>18</span><span>64</span></div>
+            </div>
+
+            <div class="field">
+              <span class="label">Gender</span>
+              <div class="seg" role="radiogroup" data-name="sex">
+                <button type="button" role="radio" data-value="0">Male</button>
+                <button type="button" role="radio" data-value="1">Female</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-top">
+                <label for="bmi">BMI <span class="bmi-tag" id="bmiTag">Healthy</span></label>
+                <div class="num-wrap"><input type="number" id="bmiNum" min="15" max="53" step="0.1" aria-label="BMI" /></div>
+              </div>
+              <input type="range" id="bmi" min="15" max="53" step="0.1" />
+              <div class="bmi-bands" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <div class="range-scale"><span>Under 18.5</span><span>18.5–25</span><span>25–30</span><span>30+</span></div>
+
+              <details class="bmi-calc" id="bmiCalc">
+                <summary>Don't know your BMI? Calculate it</summary>
+                <div class="seg seg-sm" data-name="units" role="radiogroup">
+                  <button type="button" role="radio" data-value="metric">cm / kg</button>
+                  <button type="button" role="radio" data-value="imperial">ft / lb</button>
+                </div>
+                <div class="calc-row" id="calcMetric">
+                  <label>Height<input type="number" id="hCm" placeholder="170" min="120" max="230" /><span>cm</span></label>
+                  <label>Weight<input type="number" id="wKg" placeholder="70" min="35" max="250" /><span>kg</span></label>
+                </div>
+                <div class="calc-row" id="calcImperial" hidden>
+                  <label>Height<input type="number" id="hFt" placeholder="5" min="4" max="7" /><span>ft</span></label>
+                  <label><input type="number" id="hIn" placeholder="8" min="0" max="11" /><span>in</span></label>
+                  <label>Weight<input type="number" id="wLb" placeholder="154" min="80" max="550" /><span>lb</span></label>
+                </div>
+                <p class="calc-out" id="calcOut">Enter your height and weight to fill in your BMI.</p>
+              </details>
+            </div>
+
+            <div class="field">
+              <span class="label">Children covered</span>
+              <div class="stepper">
+                <button type="button" id="kidsMinus" aria-label="Fewer children">−</button>
+                <output id="kidsOut">0</output>
+                <button type="button" id="kidsPlus" aria-label="More children">+</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span class="label">Do you smoke?</span>
+              <div class="seg seg-danger" role="radiogroup" data-name="smoker">
+                <button type="button" role="radio" data-value="0">No</button>
+                <button type="button" role="radio" data-value="1">Yes</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span class="label">US region</span>
+              <div class="region-grid" role="radiogroup" data-name="region">
+                <button type="button" role="radio" data-value="northwest"><b>Northwest</b><small>WA, OR, MT…</small></button>
+                <button type="button" role="radio" data-value="northeast"><b>Northeast</b><small>NY, MA, PA…</small></button>
+                <button type="button" role="radio" data-value="southwest"><b>Southwest</b><small>CA, AZ, NV…</small></button>
+                <button type="button" role="radio" data-value="southeast"><b>Southeast</b><small>FL, GA, TX…</small></button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span class="label">Model</span>
+              <div class="seg seg-sm" role="radiogroup" data-name="model">
+                <button type="button" role="radio" data-value="enhanced">Enhanced · R² 0.91</button>
+                <button type="button" role="radio" data-value="baseline">Original · R² 0.81</button>
+              </div>
+            </div>
+
+            <div class="form-foot">
+              <button type="button" class="btn btn-ghost btn-sm" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="randomBtn">Try a random profile</button>
+            </div>
+          </form>
+
+          <div class="result-col">
+            <div class="card result" id="result" aria-live="polite">
+              <div class="res-head">
+                <span class="res-label">Estimated yearly cost</span>
+                <span class="tier" id="tier">Moderate</span>
+              </div>
+              <div class="res-amount" id="resAmount">$0</div>
+              <div class="res-sub">
+                <span id="resMonthly">≈ $0 / month</span>
+                <span class="sep">·</span>
+                <span id="resRange">likely $0 – $0</span>
+              </div>
+
+              <div class="compare">
+                <div class="compare-top"><span>Compared with everyone in the data</span><b id="pctText">50th percentile</b></div>
+                <div class="compare-track"><div class="compare-fill" id="pctFill"></div><span class="compare-avg" id="avgMarker" title="Average"></span></div>
+                <div class="compare-legend"><span>$1k</span><span id="avgLabel">Avg $13.3k</span><span>$64k</span></div>
+              </div>
+
+              <div class="tabs" role="tablist">
+                <button role="tab" aria-selected="true" data-tab="breakdown">Breakdown</button>
+                <button role="tab" aria-selected="false" data-tab="save">Save money</button>
+                <button role="tab" aria-selected="false" data-tab="age">By age</button>
+                <button role="tab" aria-selected="false" data-tab="peers">People like you</button>
+              </div>
+
+              <div class="tab-panel" data-panel="breakdown">
+                <p class="muted small">How each factor moves your cost compared with the average person (<b id="baseAvg">$13,279</b>).</p>
+                <div class="waterfall" id="waterfall"></div>
+              </div>
+              <div class="tab-panel" data-panel="save" hidden>
+                <div class="tips" id="tips"></div>
+              </div>
+              <div class="tab-panel" data-panel="age" hidden>
+                <div class="chart-box sm"><canvas id="ageChart" aria-label="Estimated cost by age"></canvas></div>
+              </div>
+              <div class="tab-panel" data-panel="peers" hidden>
+                <div id="peers"></div>
+              </div>
+
+              <div class="res-actions">
+                <button class="btn btn-primary btn-sm" id="saveScenario">
+                  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Save to compare</button>
+                <button class="btn btn-ghost btn-sm" id="shareBtn">
+                  <svg viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg> Copy link</button>
+                <button class="btn btn-ghost btn-sm" id="printBtn">
+                  <svg viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"/></svg> Print report</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card scenarios" id="scenarios" hidden>
+          <div class="sc-head">
+            <h3>Compare scenarios</h3>
+            <button class="btn btn-ghost btn-sm" id="clearScenarios">Clear all</button>
+          </div>
+          <div class="table-wrap"><table id="scTable"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS -->
+    <section class="section insights" id="insights">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Data insights</span>
+          <h2>What really drives insurance costs</h2>
+          <p>Taken from 1,337 real insurance records. Hover over the charts to explore.</p>
+        </div>
+
+        <div class="kpis" id="kpis"></div>
+
+        <div class="chart-grid">
+          <div class="card chart-card reveal">
+            <div class="cc-head"><h3>Age vs cost</h3><span class="legend"><i class="lg-a"></i>Non-smoker <i class="lg-b"></i>Smoker</span></div>
+            <div class="chart-box"><canvas id="ageScatter"></canvas></div>
+            <p class="muted small">Cost rises steadily with age. Smokers sit in a much higher band at every age.</p>
+          </div>
+          <div class="card chart-card reveal">
+            <div class="cc-head"><h3>BMI vs cost</h3><span class="legend"><i class="lg-a"></i>Non-smoker <i class="lg-b"></i>Smoker</span></div>
+            <div class="chart-box"><canvas id="bmiScatter"></canvas></div>
+            <p class="muted small">For smokers, a BMI over 30 adds a large extra amount. For non-smokers, BMI barely matters.</p>
+          </div>
+          <div class="card chart-card reveal">
+            <div class="cc-head"><h3>Average cost by region</h3></div>
+            <div class="chart-box"><canvas id="regionBar"></canvas></div>
+          </div>
+          <div class="card chart-card reveal">
+            <div class="cc-head"><h3>Average cost by children</h3></div>
+            <div class="chart-box"><canvas id="kidsBar"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODEL -->
+    <section class="section model" id="model">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">The model</span>
+          <h2>Smarter features, half the error</h2>
+          <p>The original model treated every factor separately. The enhanced model also learns how smoking and obesity <em>combine</em>, and that costs rise faster in later life.</p>
+        </div>
+
+        <div class="model-grid">
+          <div class="card model-card reveal" id="mcBaseline"></div>
+          <div class="card model-card featured reveal" id="mcEnhanced"></div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="card chart-card reveal">
+            <div class="cc-head">
+              <h3>Actual vs predicted (test set)</h3>
+              <div class="seg seg-sm" role="radiogroup" data-name="avp">
+                <button type="button" role="radio" data-value="enhanced" aria-checked="true">Enhanced</button>
+                <button type="button" role="radio" data-value="baseline">Original</button>
+              </div>
+            </div>
+            <div class="chart-box"><canvas id="avpChart"></canvas></div>
+            <p class="muted small">Points on the diagonal are perfect predictions.</p>
+          </div>
+          <div class="card chart-card reveal">
+            <div class="cc-head"><h3>Correlation with cost</h3></div>
+            <div class="chart-box"><canvas id="corrChart"></canvas></div>
+            <p class="muted small">Smoking is by far the strongest single factor (0.79).</p>
+          </div>
+        </div>
+
+        <div class="method reveal">
+          <div class="card">
+            <h3>Method</h3>
+            <ol class="checklist">
+              <li>Removed 1 duplicate row, leaving 1,337 records with no missing values</li>
+              <li>Encoded gender and smoking as 0/1, and region as yes/no columns</li>
+              <li>Added features: age², obesity (BMI ≥ 30), smoker × obese, smoker × BMI</li>
+              <li>Split the data 80/20 for training and testing (random_state = 42)</li>
+              <li>Trained a multiple linear regression and estimated likely ranges with 5-fold cross-validation</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>Limitations</h3>
+            <ul class="checklist warn">
+              <li>Trained on one public US dataset, so this is an educational estimate, not a quote</li>
+              <li>About 1 in 12 people pay much more than expected, for reasons not in the data (e.g. existing conditions)</li>
+              <li>Ages outside 18–64 and extreme BMIs are guesses beyond the data</li>
+              <li>Real premiums depend on plan type, deductible, employer and local rules</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BATCH -->
+    <section class="section batch" id="batch">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Batch predictions</span>
+          <h2>Estimate a whole group at once</h2>
+          <p>Upload a CSV with columns <code>age, sex, bmi, children, smoker, region</code>. Processed entirely in your browser.</p>
+        </div>
+        <div class="card dropzone reveal" id="dropzone" tabindex="0" role="button" aria-label="Upload a CSV file">
+          <input type="file" id="csvInput" accept=".csv,text/csv" hidden />
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>
+          <p><b>Drop a CSV here</b> or click to choose a file</p>
+          <button type="button" class="btn btn-ghost btn-sm" id="sampleCsv">Download a sample CSV</button>
+        </div>
+        <div class="card batch-out" id="batchOut" hidden>
+          <div class="sc-head">
+            <h3 id="batchTitle">Results</h3>
+            <button class="btn btn-primary btn-sm" id="downloadCsv">Download results</button>
+          </div>
+          <div class="table-wrap"><table id="batchTable"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq" id="faq">
+      <div class="wrap narrow">
+        <div class="section-head reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2>Questions, answered</h2>
+        </div>
+        <details class="qa reveal"><summary>Is this a real insurance quote?</summary><p>No. It's an educational estimate from a statistical model trained on a public US dataset. Use it to understand cost drivers and compare scenarios, then get real quotes from insurers.</p></details>
+        <details class="qa reveal"><summary>Is my data stored anywhere?</summary><p>No. The model runs entirely in your browser. Nothing you enter is sent to a server. Saved scenarios are kept only on your device.</p></details>
+        <details class="qa reveal"><summary>Why does smoking matter so much?</summary><p>In the data, smokers pay about 3.8× more than non-smokers on average. For smokers with a BMI of 30 or more, the extra cost roughly doubles again. The enhanced model captures this combination.</p></details>
+        <details class="qa reveal"><summary>What does "likely range" mean?</summary><p>It's where most people with a similar profile landed, based on how far off the model's cross-validated predictions were. A small share of people pay much more for reasons not in the data.</p></details>
+        <details class="qa reveal"><summary>What's the difference between the two models?</summary><p>The original is a plain linear regression (R² 0.81). The enhanced model adds age², an obesity flag and smoker interactions, which lifts R² to 0.91 and cuts the average error from $4,177 to $2,277.</p></details>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="wrap cta-inner reveal">
+        <h2>Ready to see your number?</h2>
+        <a class="btn btn-light btn-lg" href="#estimate">Calculate my cost</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="currentColor"/><path d="M13 8h6v5h5v6h-5v5h-6v-5H8v-6h5z" fill="#fff"/></svg></span>
+          MediCost
+        </a>
+        <p class="muted small">Educational estimates only. Not financial, medical or insurance advice.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#estimate">Estimate</a><a href="#insights">Insights</a><a href="#model">Model</a><a href="#batch">Batch</a><a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
