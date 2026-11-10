@@ -15,6 +15,7 @@
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
   const ordinal = (n) => { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); };
   const quantile = (sorted, q) => { if (!sorted.length) return 0; const i = (sorted.length - 1) * q, lo = Math.floor(i), hi = Math.ceil(i); return sorted[lo] + (sorted[hi] - sorted[lo]) * (i - lo); };
+  const icon = (name) => `<svg aria-hidden="true"><use href="#i-${name}"/></svg>`;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let MODEL, ROWS, SORTED_CHARGES, REF = {};
@@ -247,34 +248,34 @@
     const add = (icon, title, text, delta, bad = false) => tips.push({ icon, title, text, delta, bad });
     if (state.smoker) {
       const d = pred - predict({ ...state, smoker: 0 });
-      add("🚭", "Quit smoking", "This is the biggest change you can make. Insurers usually reprice you after 12 months smoke-free.", d);
+      add("cigarette-off", "Quit smoking", "This is the biggest change you can make. Insurers usually reprice you after 12 months smoke-free.", d);
     }
     if (state.bmi >= 30) {
       const d = pred - predict({ ...state, bmi: 29.9 });
-      add("🏃", "Get your BMI below 30", `From ${state.bmi.toFixed(1)} to 29.9${state.smoker ? ". For smokers, this removes the large obesity surcharge" : ""}.`, d);
+      add("activity", "Get your BMI below 30", `From ${state.bmi.toFixed(1)} to 29.9${state.smoker ? ". For smokers, this removes the large obesity surcharge" : ""}.`, d);
     }
     if (state.bmi >= 25) {
       const d = pred - predict({ ...state, bmi: 24.9 });
-      if (d > 50) add("🥗", "Reach a healthy BMI", `From ${state.bmi.toFixed(1)} to 24.9.`, d);
+      if (d > 50) add("salad", "Reach a healthy BMI", `From ${state.bmi.toFixed(1)} to 24.9.`, d);
     }
     if (state.region !== "southwest" && state.region !== "southeast") {
       const best = REGIONS.map((r) => [r, predict({ ...state, region: r })]).sort((a, b) => a[1] - b[1])[0];
       const d = pred - best[1];
-      if (d > 50) add("📍", `Living in the ${cap(best[0])}`, "Prices vary slightly by region.", d);
+      if (d > 50) add("map-pin", `Living in the ${cap(best[0])}`, "Prices vary slightly by region.", d);
     }
     if (state.age < 64) {
       const later = Math.min(64, state.age + 10);
       const d = predict({ ...state, age: later }) - pred;
-      add("⏳", `At age ${later}`, "Expected rise from aging alone. Locking in a plan early can help.", d, true);
+      add("hourglass", `At age ${later}`, "Expected rise from aging alone. Locking in a plan early can help.", d, true);
     }
     if (!state.smoker) {
       const d = predict({ ...state, smoker: 1 }) - pred;
-      add("🚬", "If you started smoking", "The extra yearly cost the model expects.", d, true);
+      add("cigarette", "If you started smoking", "The extra yearly cost the model expects.", d, true);
     }
     const goods = tips.filter((t) => !t.bad).sort((a, b) => b.delta - a.delta), bads = tips.filter((t) => t.bad);
-    const head = goods.length ? "" : `<div class="empty"><b>You're already in great shape 🎉</b>No big savings available. Your main cost drivers are things you can't change, like age.</div>`;
+    const head = goods.length ? "" : `<div class="empty"><span class="empty-ico">${icon("sparkles")}</span><b>You're already in great shape</b>No big savings available. Your main cost drivers are things you can't change, like age.</div>`;
     $("#tips").innerHTML = head + [...goods, ...bads].map((t) => `
-      <div class="tip"><span class="tip-ico ${t.bad ? "bad" : ""}" aria-hidden="true">${t.icon}</span>
+      <div class="tip"><span class="tip-ico ${t.bad ? "bad" : ""}">${icon(t.icon)}</span>
         <div><h4>${t.title}</h4><p>${t.text}</p></div>
         <div class="amt ${t.bad ? "bad" : ""}">${t.bad ? "+" : "−"}${usd(Math.abs(t.delta))}<small>per year</small></div></div>`).join("");
   }
@@ -528,7 +529,7 @@
         <td><span class="chip ${s.smoker ? "yes" : ""}">${s.smoker ? "Yes" : "No"}</span></td><td>${cap(s.region)}</td><td>${s.model === "enhanced" ? "Enhanced" : "Original"}</td>
         <td class="num ${vals[i] === min ? "best" : ""}"><b>${usd(vals[i])}</b></td><td class="num">${usd(vals[i] / 12)}</td>
         <td class="num">${vals[i] === min ? '<span class="best">Lowest</span>' : "+" + usd(vals[i] - min)}</td>
-        <td><button class="x-btn" data-i="${i}" aria-label="Remove scenario ${i + 1}">×</button></td></tr>`).join("") + "</tbody>";
+        <td><button class="x-btn" data-i="${i}" aria-label="Remove scenario ${i + 1}">${icon("x")}</button></td></tr>`).join("") + "</tbody>";
   }
   function bindScenarios() {
     $("#saveScenario").addEventListener("click", () => {
